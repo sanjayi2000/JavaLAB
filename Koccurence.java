@@ -1,57 +1,61 @@
 import java.util.Scanner;
-public class Koccurence{
-   public static int[] arr,krr;
-   public static int n;
-    Koccurence(){
-        n=0;
-    }
- /**
- * 
- */
-public static void readArray()
- { Scanner read=new Scanner(System.in);
-    System.out.println("Enter the size of the array to be inserted");
-    n=read.nextInt();
-    arr=new int[n];
-    System.out.println("Enter values into this array");
-    for (int i = 0; i < n; i++) {
-        arr[i] = read.nextInt();
-    }
 
-}
-int checkk(int k){
-        int count;
-        System.out.println("Enter the value for k");
-        k=read.nextInt();
-        if (k>n)
-    { System.out.println("K value shouldn't be bigger than the array size");
-    System.exit(0);
-}
+public class Koccurrence {
+    static int n;
+    static int[] arr;
+
+    static void occurrence(int k) {
+        int[] k_occ = new int[n];
+        int v = 0;
+        int maxcount = 0;
+
         for (int i = 0; i < n; i++) {
-            count = 0;
-            for (int j = 0; j < n; j++) {
-                if (arr[j] == arr[i])
-                    ++count;
-            }
-            krr[i]=count;
-            }
-        }
-    public static void sort()
-    { for (int i = 0; i < n - 1; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (krr[i] < krr[arr[j]]) {
-                int temp = arr[i];
-                int tem = krr[i];
-                arr[i] = arr[j];
-                krr[i]=krr[j];
-                arr[j] = temp;
-                krr[j]
-            }
-        }
-    }}
+            int count = 1; // Initialize count to 1 for the current element
 
-    
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] == arr[i]) {
+                    count++;
+                }
+            }
+
+            if (count > maxcount || (count == maxcount && arr[i] > k_occ[0])) {
+                maxcount = count;
+                v = 0; // Reset the index for k_occ
+
+                k_occ[v] = arr[i];
+
+                // Shift elements to make room for the new k_occ[0]
+                for (int x = v + 1; x < k && x < n; x++) {
+                    k_occ[x] = k_occ[x - 1];
+                }
+            } else if (v < k - 1) {
+                v++;
+                k_occ[v] = arr[i];
+            }
+        }
+
+        System.out.println("Top " + k + " elements with the highest occurrence:");
+        for (int j = 0; j < k && j <= v; j++) {
+            System.out.println(k_occ[j]);
+        }
     }
 
+    public static void main(String[] args) {
+        Koccurrence kOccurrence = new Koccurrence();
+        Scanner input = new Scanner(System.in);
 
+        System.out.println("Enter the number of elements");
+        kOccurrence.n = input.nextInt();
+        kOccurrence.arr = new int[kOccurrence.n];
 
+        System.out.println("Enter the elements");
+        for (int i = 0; i < kOccurrence.n; i++) {
+            kOccurrence.arr[i] = input.nextInt();
+        }
+
+        System.out.println("Enter the value of K");
+        int k = input.nextInt();
+
+        kOccurrence.occurrence(k);
+    }
+}
