@@ -1,0 +1,92 @@
+abstract class Robber
+{abstract void RobbingClass();
+abstract int RowHouses();
+abstract int RoundHouses();
+abstract int SquareHouse();
+abstract int MultiHouseBuilding(int[] type1, int[] type2, int[] type3, int[] type4);
+void MachineLearning(){System.out.println("ILoveMachineLearning");
+}}
+class JAVAProfessionalRobber extends Robber {
+   void RobbingClass() {
+        System.out.println("MScAI&ML");
+    }
+
+    int RowHouses(int[] money) {
+        int n = money.length;
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return money[0];
+        }
+
+        int[] dp = new int[n];
+        dp[0] = money[0];
+        dp[1] = Math.max(money[0], money[1]);
+
+        for (int i = 2; i < n; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + money[i]);
+        }
+
+        return dp[n - 1];
+    }
+
+    int RoundHouses(int[] money) {
+        int n = money.length;
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return money[0];
+        }
+
+        return Math.max(RowHouses(Arrays.copyOfRange(money, 0, n - 1)),
+                        RowHouses(Arrays.copyOfRange(money, 1, n)));
+    }
+
+    
+    int SquareHouse(int[] money) {
+        int n = money.length;
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return money[0];
+        }
+
+        int[] dp = new int[n];
+        dp[0] = money[0];
+        dp[1] = Math.max(money[0], money[1]);
+
+        for (int i = 2; i < n; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + money[i]);
+        }
+
+        return dp[n - 1];
+    }
+
+    
+    int MultiHouseBuilding(int[] type1, int[] type2, int[] type3, int[] type4) {
+        int maxType1 = RowHouses(type1);
+        int maxType2 = RowHouses(type2);
+        int maxType3 = RowHouses(type3);
+        int maxType4 = RowHouses(type4);
+
+        return maxType1 + maxType2 + maxType3 + maxType4;
+    }
+}
+
+public class LAB4 {
+    public static void main(String[] args) {
+        JAVAProfessionalRobber robber = new JAVAProfessionalRobber();
+        robber.RobbingClass();
+        robber.MachineLearning();
+        System.out.println("RowHouses: " + robber.RowHouses(new int[]{1, 2, 3, 0}));
+        System.out.println("RoundHouses: " + robber.RoundHouses(new int[]{1, 2, 3, 4}));
+        System.out.println("SquareHouse: " + robber.SquareHouse(new int[]{5, 10, 2, 7}));
+        System.out.println("MultiHouseBuilding: " + robber.MultiHouseBuilding(new int[]{5, 3, 8, 2},
+                                                                               new int[]{10, 12, 7, 6},
+                                                                               new int[]{4, 9, 11, 5},
+                                                                               new int[]{8, 6, 3, 7}));
+    }
+}
